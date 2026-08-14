@@ -1,0 +1,51 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+  + id: int
+  + name: str
+  + email: str
+  + role: str
+  + login(): bool
+}
+
+class Ticket {
+  + id: int
+  + title: str
+  + description: str
+  + priority: str
+  - status: str
+  + assign_technician(tech: User): None
+  + change_status(new_status: str): None
+  + add_comment(content: str, author: User): None
+}
+
+class Comment {
+  + id: int
+  + content: str
+  + created_at: str
+  + get_summary(): str
+}
+
+class History {
+  + id: int
+  + action: str
+  + timestamp: str
+  + log_entry(): str
+}
+
+class Article {
+  + id: int
+  + title: str
+  + content: str
+  + publish(): None
+}
+
+' Relaciones con su respectiva multiplicidad
+User "1" -- "0..*" Ticket : requester
+User "0..1" -- "0..*" Ticket : technician
+Ticket "1" *-- "0..*" Comment
+Ticket "1" *-- "0..*" History
+User "1" -- "0..*" Article : author
+
+@enduml
